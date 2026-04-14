@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>WonderLand – Age-Wise Learning</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+</head>
+<body>
+<link rel="stylesheet" href="style.css">
+<!-- ══════════════════════════════════════════
+     AGE SELECTOR
+══════════════════════════════════════════ -->
+<div id="ageSelector">
+  <div class="lang-toggle-sel">
+    <button class="lang-btn-sel active" id="selLangEN" onclick="setLang('en')">English</button>
+    <button class="lang-btn-sel" id="selLangML" onclick="setLang('ml')">മലയാളം</button>
+  </div>
+  <div class="sel-title" id="selTitle">🌟 WonderLand</div>
+  <div class="sel-sub" id="selSub">Choose your age to begin the adventure!</div>
+  <div class="row g-3 w-100" style="max-width:420px">
+    <div class="col-12">
+      <div class="age-card ac-tiny" onclick="selectAge('tiny')">
+        <span class="ac-emoji">🐣</span>
+        <div class="ac-range" id="tiny-range">Ages 3 – 5</div>
+        <div class="ac-label" id="tiny-label">Tiny Tots</div>
+        <div class="ac-desc" id="tiny-desc">Big pictures · Simple taps · Colourful games</div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="age-card ac-mid" onclick="selectAge('mid')">
+        <span class="ac-emoji">🚀</span>
+        <div class="ac-range" id="mid-range">Ages 6 – 9</div>
+        <div class="ac-label" id="mid-label">Little Explorers</div>
+        <div class="ac-desc" id="mid-desc">Short stories · MCQs · Memory games</div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="age-card ac-big" onclick="selectAge('big')">
+        <span class="ac-emoji">🔬</span>
+        <div class="ac-range" id="big-range">Ages 10 – 13</div>
+        <div class="ac-label" id="big-label">Young Thinkers</div>
+        <div class="ac-desc" id="big-desc">Chapter stories · Science quizzes · Word puzzles</div>
+      </div>
+    </div>
+  </div>
+  <div class="parent-entry" onclick="openParentOverlay()" id="selParentLink">🔐 Parent / Guardian Settings</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APP SHELL
+══════════════════════════════════════════ -->
+<div id="appShell">
+
+  <!-- LOCK SCREEN -->
+  <div id="lockScreen">
+    <div class="lock-card">
+      <div style="font-size:3rem;margin-bottom:.4rem">🔒</div>
+      <h2 id="lockTitle" style="font-size:1.25rem;font-weight:900;margin-bottom:.4rem">Screen time is up!</h2>
+      <p id="lockMsg" style="font-size:.82rem;color:#555;margin-bottom:.9rem">Great learning today! Time for something fun in the real world.</p>
+      <div style="background:#FEF9C3;border-radius:14px;padding:.8rem;margin-bottom:.9rem">
+        <p id="lockChallengeLabel" style="font-size:.73rem;font-weight:800;color:#92610A;margin-bottom:3px">Your offline challenge:</p>
+        <p id="lockChallengeTxt" style="font-size:.9rem;font-weight:800;color:#78350F;margin:0">Read a real book!</p>
+      </div>
+      <button class="btn-outline2 w-100 mb-2" onclick="showLockPin()" id="lockParentBtn"><i class="bi bi-shield-lock"></i> <span id="lockParentBtnTxt">Parent unlock</span></button>
+      <div id="lockPinBox" style="display:none">
+        <input type="password" id="lockPinInput" placeholder="Enter parent PIN" style="text-align:center;margin-bottom:.55rem"/>
+        <button class="btn-brand w-100" onclick="tryLockUnlock()" id="lockUnlockBtn">Unlock</button>
+        <p id="lockPinErr" style="color:#DC2626;font-size:.78rem;font-weight:800;margin-top:.35rem;display:none">Wrong PIN!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="back-age-btn" onclick="goBackToAge()" id="backAgeBtn" title="Change age group">
+      <i class="bi bi-arrow-left-circle-fill"></i><span id="backAgeTxt">Age</span>
+    </button>
+    <span class="logo-text" id="logoTxt">WonderLand</span>
+    <span class="age-badge" id="ageBadgeTxt"></span>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <div class="lang-toggle">
+        <button class="lang-btn" id="appLangEN" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="appLangML" onclick="setLang('ml')">മ</button>
+      </div>
+      <div class="star-pill"><i class="bi bi-star-fill"></i><span id="starCount">0</span></div>
+      <div class="timer-pill" id="timerPill"><i class="bi bi-hourglass-split"></i><span id="timerDisp">20:00</span></div>
+    </div>
+  </div>
+
+  <!-- BREAK BANNER -->
+  <div id="breakBanner">
+    <span style="font-size:1.25rem">☀️</span>
+    <div style="flex:1">
+      <div style="font-size:.8rem;font-weight:800;color:#92610A" id="breakTitle">Quick break time!</div>
+      <div style="font-size:.7rem;color:#A16207" id="breakSub">Stand up, stretch, drink some water!</div>
+    </div>
+    <button class="btn-brand" style="padding:.32rem .8rem;font-size:.76rem" onclick="dismissBreak()" id="breakDoneBtn">Done!</button>
+  </div>
+
+  <!-- ── HOME ── -->
+  <div id="homeScreen" class="screen active">
+    <div class="wcard mb-2" style="border-color:var(--brand)">
+      <p style="font-size:.76rem;color:#999;font-weight:700;margin-bottom:2px" id="homeGreet">Hello, Explorer!</p>
+      <h2 id="homeTitle" style="font-size:1.15rem;margin-bottom:.45rem">What shall we learn today?</h2>
+      <div class="d-flex gap-2 flex-wrap" id="homePills"></div>
+    </div>
+    <div class="wcard">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span style="font-size:.8rem;font-weight:800" id="homeProgressLabel">Today's journey</span>
+        <span class="xpill xp-blue"><span id="homePct">0</span>%</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" id="homeProgBar" style="width:0%"></div></div>
+      <p style="font-size:.7rem;color:#999;margin-top:.3rem;margin-bottom:0" id="homeProgLbl">0 of 4 done</p>
+    </div>
+    <div class="row g-3 mb-2" id="homeModules"></div>
+    <div class="d-flex justify-content-end">
+      <button class="btn-outline2" style="font-size:.74rem" onclick="openParentOverlay()"><i class="bi bi-shield-lock-fill"></i> <span id="homeParentBtnTxt">Parent zone</span></button>
+    </div>
+  </div>
+
+  <!-- ── STORIES ── -->
+  <div id="storiesScreen" class="screen">
+    <h2 id="storiesTitle" style="font-size:1.1rem;margin-bottom:.9rem">📚 Stories</h2>
+    <div id="storyList"></div>
+    <div id="storyReader" style="display:none">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <button class="btn-outline2" style="font-size:.74rem;padding:.35rem .8rem" onclick="closeReader()"><i class="bi bi-arrow-left"></i> <span id="readerBackTxt">Library</span></button>
+        <h3 id="readerTitle" style="font-size:.95rem;font-weight:800;flex:1;margin:0;color:#333"></h3>
+        <span class="xpill xp-blue"><span id="pageNum">1</span>/<span id="totalPgs">3</span></span>
+      </div>
+      <div class="story-hero" id="storyHero">🐢</div>
+      <div class="prog-wrap mb-3"><div class="prog-bar" id="storyProg" style="width:33%"></div></div>
+      <div class="wcard"><p id="storyBody" style="margin:0;line-height:1.9"></p></div>
+      <div class="d-flex gap-2 mt-2">
+        <button class="btn-outline2 flex-fill" id="prevBtn" onclick="storyPage(-1)"><i class="bi bi-arrow-left"></i> <span id="prevBtnTxt">Back</span></button>
+        <button class="btn-brand flex-fill" id="nextBtn" onclick="storyPage(1)"><span id="nextBtnTxt">Next</span> <i class="bi bi-arrow-right"></i></button>
+      </div>
+      <button class="btn-outline2 w-100 mt-2" style="font-size:.78rem" onclick="readAloud()"><i class="bi bi-volume-up-fill"></i> <span id="readAloudTxt">Read aloud</span></button>
+    </div>
+  </div>
+
+  <!-- ── QUIZ ── -->
+  <div id="quizScreen" class="screen">
+    <div id="quizIntro" class="text-center fadein">
+      <div style="font-size:3.2rem;margin:1rem 0">🧠</div>
+      <h2 id="quizIntroTitle" style="font-size:1.25rem;margin-bottom:.45rem">Quiz Time!</h2>
+      <p id="quizIntroSub" style="font-size:.83rem;color:#555;margin-bottom:1.1rem"></p>
+      <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap">
+        <span class="xpill xp-amber"><i class="bi bi-star-fill"></i> <span id="quizStarLabel">+5 stars per correct</span></span>
+      </div>
+      <button class="btn-brand px-5" onclick="startQuiz()"><i class="bi bi-play-fill"></i> <span id="startQuizTxt">Start Quiz</span></button>
+    </div>
+    <div id="quizQ" style="display:none">
+      <div class="wcard">
+        <div class="d-flex justify-content-between mb-2">
+          <span class="xpill xp-purple">Q <span id="qNum">1</span>/<span id="qTotal">3</span></span>
+          <span class="xpill xp-amber">+5 ⭐</span>
+        </div>
+        <div class="prog-wrap mb-3"><div class="prog-bar" id="quizProg" style="width:33%"></div></div>
+        <p id="qText" style="font-size:.97rem;font-weight:800;color:#111;margin-bottom:.9rem"></p>
+        <div id="optsCont"></div>
+      </div>
+    </div>
+    <div id="quizResult" style="display:none;text-align:center" class="fadein">
+      <div style="font-size:3.2rem;margin:1rem 0" id="resEmoji">🎉</div>
+      <h2 id="resTitle" style="font-size:1.25rem;margin-bottom:.35rem"></h2>
+      <p id="resMsg" style="font-size:.83rem;color:#555;margin-bottom:.9rem"></p>
+      <div class="wcard" style="background:#FFFBEB;border-color:#FDE68A;margin-bottom:1.1rem">
+        <p style="font-weight:800;color:#92610A;margin:0">+<span id="resStars">0</span> <span id="resStarLabel">stars earned!</span> ⭐</p>
+      </div>
+      <button class="btn-brand px-5" onclick="nav('home')"><i class="bi bi-house-heart-fill"></i> <span id="resHomeTxt">Home</span></button>
+    </div>
+  </div>
+
+  <!-- ── GAMES ── -->
+  <div id="gamesScreen" class="screen">
+    <h2 id="gamesTitle" style="font-size:1.1rem;margin-bottom:.9rem">🎮 Games</h2>
+    <div id="gameTiny" style="display:none">
+      <div class="wcard mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <h3 id="animalHomesTitle" style="font-size:.9rem;font-weight:800;margin:0">Animal Homes</h3>
+          <span class="xpill xp-teal" id="dragDropLabel">Drag &amp; Drop</span>
+        </div>
+        <p id="animalHomesDesc" style="font-size:.75rem;color:#777;margin-bottom:.8rem">Drag each animal to its home!</p>
+        <div class="d-flex justify-content-around flex-wrap gap-2 mb-3" id="dragItems"></div>
+        <div class="d-flex justify-content-around flex-wrap gap-2" id="dropZones"></div>
+        <div id="dragMsg" style="display:none;border-radius:12px;padding:.6rem;text-align:center;font-weight:800;font-size:.83rem;margin-top:.7rem"></div>
+        <button class="btn-outline2 w-100 mt-3" onclick="setupDrag()"><i class="bi bi-arrow-clockwise"></i> <span id="resetTxt">Reset</span></button>
+      </div>
+      <div class="wcard">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <h3 id="numTapTitle" style="font-size:.9rem;font-weight:800;margin:0">Number Tap</h3>
+          <span class="xpill xp-purple">1 → 9</span>
+        </div>
+        <p id="numTapDesc" style="font-size:.75rem;color:#777;margin-bottom:.8rem">Tap numbers 1 to 9 in order!</p>
+        <div id="numGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;max-width:200px;margin:0 auto .8rem"></div>
+        <p id="numMsg" style="font-size:.78rem;color:#777;font-weight:700;text-align:center;margin:0">Tap 1 first!</p>
+      </div>
+    </div>
+    <div id="gameMid" style="display:none">
+      <div class="wcard mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <h3 id="memMatchTitle" style="font-size:.9rem;font-weight:800;margin:0">Memory Match</h3>
+          <span class="xpill xp-blue" id="findPairsLabel">Find the pairs</span>
+        </div>
+        <p id="memMatchDesc" style="font-size:.75rem;color:#777;margin-bottom:.8rem">Flip cards to find matching pairs!</p>
+        <div id="pairGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;max-width:310px;margin:0 auto .8rem"></div>
+        <p id="pairMsg" style="font-size:.78rem;color:#777;font-weight:700;text-align:center;margin:0">Tap a card to flip!</p>
+        <div class="d-flex justify-content-between mt-2">
+          <span style="font-size:.76rem;color:#777;font-weight:700"><span id="movesLabel">Moves:</span> <span id="pairMoves">0</span></span>
+          <button class="btn-outline2" style="font-size:.74rem;padding:.32rem .75rem" onclick="setupPairs()"><i class="bi bi-arrow-clockwise"></i> <span id="newGameTxt">New game</span></button>
+        </div>
+      </div>
+      <div class="wcard">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <h3 id="animalHomesTitle2" style="font-size:.9rem;font-weight:800;margin:0">Animal Homes</h3>
+          <span class="xpill xp-teal" id="dragDropLabel2">Drag &amp; Drop</span>
+        </div>
+        <p id="animalHomesDesc2" style="font-size:.75rem;color:#777;margin-bottom:.8rem">Drag each animal to its correct home!</p>
+        <div class="d-flex justify-content-around flex-wrap gap-2 mb-3" id="dragItems2"></div>
+        <div class="d-flex justify-content-around flex-wrap gap-2" id="dropZones2"></div>
+        <div id="dragMsg2" style="display:none;border-radius:12px;padding:.6rem;text-align:center;font-weight:800;font-size:.83rem;margin-top:.7rem"></div>
+        <button class="btn-outline2 w-100 mt-2" onclick="setupDrag2()"><i class="bi bi-arrow-clockwise"></i> <span id="resetTxt2">Reset</span></button>
+      </div>
+    </div>
+    <div id="gameBig" style="display:none">
+      <div class="wcard mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <h3 id="wordScrambleTitle" style="font-size:.9rem;font-weight:800;margin:0">Word Scramble</h3>
+          <span class="xpill xp-purple" id="sciWordsLabel">Science words</span>
+        </div>
+        <p id="wordScrambleDesc" style="font-size:.75rem;color:#777;margin-bottom:.45rem">Unscramble the science word!</p>
+        <div style="background:var(--bg);border-radius:12px;padding:.7rem;margin-bottom:.8rem;text-align:center">
+          <p id="hintLabel" style="font-size:.72rem;color:#777;margin-bottom:.18rem;font-weight:700">Hint:</p>
+          <p id="scrambleHint" style="font-size:.83rem;font-weight:800;color:#333;margin:0"></p>
+        </div>
+        <div id="scrambleSlots" class="d-flex justify-content-center flex-wrap gap-1 mb-3"></div>
+        <div id="scrambleLetters" class="d-flex justify-content-center flex-wrap gap-2 mb-3"></div>
+        <div id="scrambleMsg" style="display:none;border-radius:12px;padding:.58rem;text-align:center;font-weight:800;font-size:.83rem;margin-bottom:.7rem"></div>
+        <div class="d-flex gap-2">
+          <button class="btn-outline2 flex-fill" onclick="clearScramble()"><i class="bi bi-x-circle"></i> <span id="clearTxt">Clear</span></button>
+          <button class="btn-brand flex-fill" onclick="nextScramble()"><span id="nextWordTxt">Next word</span> <i class="bi bi-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="wcard">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <h3 id="numTapTitle2" style="font-size:.9rem;font-weight:800;margin:0">Number Tap</h3>
+          <span class="xpill xp-green">1 → 9</span>
+        </div>
+        <p id="numTapDesc2" style="font-size:.75rem;color:#777;margin-bottom:.8rem">Tap numbers 1 to 9 in order!</p>
+        <div id="numGrid2" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;max-width:200px;margin:0 auto .8rem"></div>
+        <p id="numMsg2" style="font-size:.78rem;color:#777;font-weight:700;text-align:center;margin:0">Tap 1 first!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REWARDS ── -->
+  <div id="rewardsScreen" class="screen">
+    <h2 id="rewardsTitle" style="font-size:1.1rem;margin-bottom:.9rem">🏆 My Rewards</h2>
+    <div class="wcard text-center mb-2" style="background:#FFFBEB;border-color:#FDE68A">
+      <div style="font-family:var(--font-head,'Fredoka One'),cursive;font-size:2.6rem;color:#92610A" id="bigStarCount">0</div>
+      <div style="font-size:.73rem;font-weight:700;color:#A16207" id="totalStarsLabel">total stars collected</div>
+      <div class="prog-wrap mt-2 mb-1"><div class="prog-bar" id="starProg" style="width:0%;background:#FBBF24"></div></div>
+      <div style="font-size:.68rem;color:#999;font-weight:700" id="nextBadgeLabel">Next badge at 30 stars</div>
+    </div>
+    <div class="wcard mb-2">
+      <h3 id="badgesTitle" style="font-size:.86rem;font-weight:800;margin-bottom:.7rem">Badges</h3>
+      <div class="row g-2" id="badgeGrid">
+        <div class="col-3"><div class="badge-item earned"><div class="badge-icon">📖</div><div id="badge1lbl">Story Star</div></div></div>
+        <div class="col-3"><div class="badge-item earned"><div class="badge-icon">🎯</div><div id="badge2lbl">Quiz Pro</div></div></div>
+        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🎮</div><div id="badge3lbl">Game Hero</div></div></div>
+        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🌟</div><div id="badge4lbl">Super Kid</div></div></div>
+        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">📚</div><div id="badge5lbl">Bookworm</div></div></div>
+        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🏅</div><div id="badge6lbl">Explorer</div></div></div>
+        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🧠</div><div id="badge7lbl">Thinker</div></div></div>
+        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🌈</div><div id="badge8lbl">Rainbow</div></div></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <h3 id="earnOfflineTitle" style="font-size:.86rem;font-weight:800;margin-bottom:.28rem">Earn stars offline!</h3>
+      <p id="earnOfflineSub" style="font-size:.72rem;color:#777;margin-bottom:.75rem">Complete real-world activities to claim bonus stars.</p>
+      <div id="offlineList"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottomnav">
+    <button class="bnav-btn active" id="bn-home" onclick="nav('home')"><i class="bi bi-house-heart-fill"></i><span id="nav-home-lbl">Home</span></button>
+    <button class="bnav-btn" id="bn-stories" onclick="nav('stories')"><i class="bi bi-book-fill"></i><span id="nav-stories-lbl">Stories</span></button>
+    <button class="bnav-btn" id="bn-quiz" onclick="nav('quiz')"><i class="bi bi-patch-question-fill"></i><span id="nav-quiz-lbl">Quiz</span></button>
+    <button class="bnav-btn" id="bn-games" onclick="nav('games')"><i class="bi bi-controller"></i><span id="nav-games-lbl">Games</span></button>
+    <button class="bnav-btn" id="bn-rewards" onclick="nav('rewards')"><i class="bi bi-trophy-fill"></i><span id="nav-rewards-lbl">Rewards</span></button>
+  </nav>
+</div>
+
+<!-- PARENT OVERLAY -->
+<div id="parentOverlay">
+  <div class="parent-modal">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 id="parentModalTitle" style="font-size:1rem;font-weight:800;margin:0">🔐 Parent Settings</h3>
+      <button class="btn-outline2" style="padding:.28rem .65rem;font-size:.78rem" onclick="closeParent()">✕</button>
+    </div>
+    <div id="parentGate">
+      <p id="parentPinHint" style="font-size:.8rem;color:#555;margin-bottom:.7rem">Enter parent PIN. Default: <strong>1234</strong></p>
+      <input type="password" id="parentPinInput" placeholder="PIN" style="text-align:center;margin-bottom:.7rem"/>
+      <button class="btn-brand w-100" onclick="loginParent()" id="parentEnterBtn">Enter</button>
+      <p id="parentPinErr" style="color:#DC2626;font-size:.76rem;font-weight:800;margin-top:.35rem;display:none">Incorrect PIN.</p>
+    </div>
+    <div id="parentDash" style="display:none">
+      <div class="d-flex gap-2 mb-3 flex-wrap">
+        <button class="tab-btn on" onclick="parentTab('pStats',this)" id="tabStats">Stats</button>
+        <button class="tab-btn" onclick="parentTab('pLimits',this)" id="tabLimits">Limits</button>
+        <button class="tab-btn" onclick="parentTab('pOffline',this)" id="tabOffline">Offline</button>
+      </div>
+      <div id="pStats">
+        <div class="row g-2 mb-2">
+          <div class="col-6"><div class="stat-box"><div class="stat-num" id="pTime">0 min</div><div class="stat-lbl" id="pTimeLabel">Screen time today</div></div></div>
+          <div class="col-6"><div class="stat-box"><div class="stat-num" id="pStarsD">0</div><div class="stat-lbl" id="pStarsLabel">Stars earned</div></div></div>
+          <div class="col-6"><div class="stat-box"><div class="stat-num">1</div><div class="stat-lbl" id="pStoriesLabel">Stories read</div></div></div>
+          <div class="col-6"><div class="stat-box"><div class="stat-num">1</div><div class="stat-lbl" id="pQuizLabel">Quizzes done</div></div></div>
+        </div>
+        <div class="p-2" style="background:#F3F4F6;border-radius:12px">
+          <p style="font-size:.76rem;font-weight:800;color:#333;margin-bottom:2px" id="pAgeGroupLabel">Current age group:</p>
+          <p style="font-size:.82rem;color:#555;margin:0" id="pAgeGroup">—</p>
+        </div>
+      </div>
+      <div id="pLimits" style="display:none">
+        <div class="wcard" style="margin-bottom:0">
+          <label id="dailyCapLabel" style="font-size:.8rem;font-weight:800;display:block;margin-bottom:.38rem">Daily screen time cap</label>
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <input type="range" min="10" max="90" value="20" step="5" id="timeLimitSl" oninput="document.getElementById('timeLimitLbl').textContent=this.value+' min'"/>
+            <span style="font-size:.8rem;font-weight:800;min-width:50px" id="timeLimitLbl">20 min</span>
+          </div>
+          <label id="breakEveryLabel" style="font-size:.8rem;font-weight:800;display:block;margin-bottom:.38rem">Break reminder every</label>
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <input type="range" min="5" max="30" value="10" step="5" id="breakSl" oninput="document.getElementById('breakLbl').textContent=this.value+' min'"/>
+            <span style="font-size:.8rem;font-weight:800;min-width:44px" id="breakLbl">10 min</span>
+          </div>
+          <button class="btn-brand w-100 mt-1" onclick="saveSettings()" id="saveSettingsBtn">Save settings ✓</button>
+        </div>
+      </div>
+      <div id="pOffline" style="display:none">
+        <p id="offlineMgmtDesc" style="font-size:.76rem;color:#777;margin-bottom:.7rem">Children claim stars after these activities.</p>
+        <div id="pOfflineList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./script.js"></script>
+</body>
+</html>

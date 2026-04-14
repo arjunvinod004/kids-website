@@ -1,0 +1,435 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F8F9FA;min-height:100vh;overflow-x:hidden}
+
+/* ── AGE THEMES ── */
+body.age-tiny{--brand:#FF8C42;--brand2:#FFD166;--brand3:#06D6A0;--bg:#FFF8F0;--card-border:#FFD8B0;--font-head:'Bubblegum Sans',cursive;--nav-bg:#FFF3E0;--pill-bg:#FFE0B2;--pill-txt:#BF360C}
+body.age-mid{--brand:#4361EE;--brand2:#4CC9F0;--brand3:#7BF1A8;--bg:#F0F4FF;--card-border:#C0D0FF;--font-head:'Fredoka One',cursive;--nav-bg:#E8EEFF;--pill-bg:#C0D0FF;--pill-txt:#1A237E}
+body.age-big{--brand:#2D3A8C;--brand2:#00B4D8;--brand3:#80ED99;--bg:#F0F7FF;--card-border:#B0C4DE;--font-head:'Poppins',sans-serif;--nav-bg:#E8F0FF;--pill-bg:#B0C4DE;--pill-txt:#0D1B5E}
+
+/* ── AGE SELECTOR ── */
+#ageSelector{position:fixed;inset:0;z-index:9000;background:linear-gradient(160deg,#0F2027,#203A43,#2C5364);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;overflow-y:auto}
+#ageSelector.hidden{display:none!important}
+.sel-title{font-family:'Fredoka One',cursive;font-size:2.2rem;color:#fff;margin-bottom:.2rem;letter-spacing:1px}
+.sel-sub{color:rgba(255,255,255,.65);font-size:.92rem;margin-bottom:2rem;font-weight:600}
+.age-card{border-radius:24px;padding:1.5rem 1.1rem;cursor:pointer;transition:transform .2s,box-shadow .2s;border:3px solid transparent;text-align:center}
+.age-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(0,0,0,.3)}
+.age-card .ac-emoji{font-size:3rem;display:block;margin-bottom:.4rem}
+.age-card .ac-range{font-size:1.3rem;font-weight:900;color:#fff;margin-bottom:.15rem}
+.age-card .ac-label{font-size:.83rem;color:rgba(255,255,255,.85);font-weight:800}
+.age-card .ac-desc{font-size:.7rem;color:rgba(255,255,255,.6);margin-top:.25rem;font-weight:600}
+.ac-tiny{background:linear-gradient(135deg,#FF8C42,#FFD166);border-color:#FFD166}
+.ac-mid{background:linear-gradient(135deg,#4361EE,#4CC9F0);border-color:#4CC9F0}
+.ac-big{background:linear-gradient(135deg,#2D3A8C,#00B4D8);border-color:#00B4D8}
+.parent-entry{color:rgba(255,255,255,.45);font-size:.78rem;cursor:pointer;margin-top:1.25rem;text-decoration:underline;font-weight:600}
+.parent-entry:hover{color:#fff}
+
+/* ── LANG TOGGLE on selector ── */
+.lang-toggle-sel{display:flex;gap:.5rem;margin-bottom:1.5rem;background:rgba(255,255,255,.12);border-radius:30px;padding:4px}
+.lang-btn-sel{border:none;border-radius:26px;padding:6px 18px;font-size:.8rem;font-weight:800;cursor:pointer;transition:all .2s;background:transparent;color:rgba(255,255,255,.65)}
+.lang-btn-sel.active{background:#fff;color:#0F2027}
+
+/* ── APP SHELL ── */
+#appShell{display:none}
+
+/* ── TOPBAR ── */
+.topbar{height:64px;background:var(--nav-bg);border-bottom:2.5px solid var(--card-border);display:flex;align-items:center;padding:0 .75rem;gap:.5rem;position:sticky;top:0;z-index:200}
+.logo-text{font-family:var(--font-head);font-size:1.2rem;color:var(--brand);white-space:nowrap}
+.age-badge{border-radius:30px;padding:3px 10px;font-size:.68rem;font-weight:800;background:var(--pill-bg);color:var(--pill-txt);white-space:nowrap}
+.star-pill{background:#FFF3CD;color:#92610A;border-radius:30px;padding:3px 10px;font-size:.76rem;font-weight:800;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.timer-pill{background:#D1FAE5;color:#065F46;border-radius:30px;padding:3px 10px;font-size:.76rem;font-weight:800;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.timer-pill.warn{background:#FEE2E2;color:#991B1B}
+
+/* Language toggle in app */
+.lang-toggle{display:flex;gap:3px;background:rgba(0,0,0,.07);border-radius:20px;padding:3px}
+.lang-btn{border:none;border-radius:16px;padding:3px 10px;font-size:.7rem;font-weight:800;cursor:pointer;background:transparent;color:#666;transition:all .15s}
+.lang-btn.active{background:var(--brand);color:#fff}
+
+/* Back btn */
+.back-age-btn{border:none;background:transparent;color:var(--brand);font-weight:800;font-size:.78rem;display:flex;align-items:center;gap:3px;cursor:pointer;padding:4px 6px;border-radius:8px;transition:background .15s;white-space:nowrap}
+.back-age-btn:hover{background:rgba(0,0,0,.06)}
+
+/* ── SCREENS ── */
+.screen{display:none;padding:1rem 1rem 5.5rem;background:var(--bg);min-height:calc(100vh - 64px)}
+.screen.active{display:block}
+
+/* ── BOTTOM NAV ── */
+.bottomnav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:2.5px solid var(--card-border);display:grid;grid-template-columns:repeat(5,1fr);z-index:200;height:58px}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:none;background:transparent;font-size:.55rem;font-weight:800;color:#aaa;cursor:pointer;transition:color .15s}
+.bnav-btn.active{color:var(--brand)}
+.bnav-btn i{font-size:1.2rem}
+
+/* ── CARDS ── */
+.wcard{background:#fff;border-radius:20px;border:2.5px solid var(--card-border);padding:1rem 1.1rem;margin-bottom:.85rem}
+.mod-card{border-radius:20px;border:2.5px solid transparent;padding:1rem .85rem;cursor:pointer;transition:transform .15s,box-shadow .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.35rem;background:#fff}
+.mod-card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.mod-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+.mod-title{font-size:.88rem;font-weight:800;color:#333}
+.mod-sub{font-size:.72rem;color:#888;font-weight:600}
+
+/* ── PROGRESS ── */
+.prog-wrap{background:#F3F4F6;border-radius:20px;height:9px;overflow:hidden}
+.prog-bar{height:9px;border-radius:20px;transition:width .5s;background:var(--brand)}
+
+/* ── PILLS ── */
+.xpill{border-radius:20px;padding:3px 9px;font-size:.68rem;font-weight:800;display:inline-flex;align-items:center;gap:3px}
+.xp-blue{background:#DBEAFE;color:#1E40AF}.xp-green{background:#DCFCE7;color:#166534}
+.xp-amber{background:#FEF9C3;color:#854D0E}.xp-red{background:#FFE4E6;color:#9F1239}
+.xp-purple{background:#F3E8FF;color:#6B21A8}.xp-teal{background:#CCFBF1;color:#0F766E}
+.xp-orange{background:#FEF3C7;color:#B45309}
+
+/* ── STORY ── */
+.story-hero{border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:4rem;height:140px;margin-bottom:.85rem}
+.story-item{display:flex;gap:.75rem;align-items:center;cursor:pointer;border-radius:18px;border:2.5px solid var(--card-border);background:#fff;padding:.8rem;margin-bottom:.65rem;transition:transform .12s,border-color .12s}
+.story-item:hover{transform:translateX(4px);border-color:var(--brand)}
+
+/* ── QUIZ ── */
+.qopt{width:100%;text-align:left;padding:.7rem .95rem;border-radius:14px;border:2.5px solid #E5E7EB;background:#fff;font-size:.88rem;font-weight:700;color:#333;cursor:pointer;margin-bottom:.48rem;transition:border-color .15s,background .15s;font-family:'Nunito',sans-serif}
+.qopt:hover{border-color:var(--brand);background:var(--bg)}
+.qopt.correct{border-color:#22C55E;background:#DCFCE7;color:#166534}
+.qopt.wrong{border-color:#EF4444;background:#FEE2E2;color:#991B1B}
+
+/* ── GAMES ── */
+.drag-item{width:68px;height:68px;border-radius:14px;border:3px dashed #D1D5DB;display:flex;align-items:center;justify-content:center;font-size:1.8rem;cursor:grab;user-select:none;background:#fff;transition:opacity .2s}
+.drag-item:active{opacity:.45;cursor:grabbing}
+.drop-slot{width:68px;height:68px;border-radius:14px;border:3px dashed #D1D5DB;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:#9CA3AF;text-align:center;background:#F9FAFB;transition:border-color .2s,background .2s}
+.drop-slot.over{border-color:var(--brand);background:var(--bg)}
+.drop-slot.matched{border-color:#22C55E;background:#DCFCE7;font-size:1.7rem;color:#333}
+.drop-slot.bad{border-color:#EF4444;background:#FEE2E2}
+.num-btn{border:2.5px solid #E5E7EB;border-radius:14px;background:#fff;font-family:'Fredoka One',cursive;font-size:1.25rem;color:#333;padding:.65rem;cursor:pointer;transition:background .15s,border-color .15s;width:100%;aspect-ratio:1}
+.num-btn.done{background:#DCFCE7;border-color:#22C55E;color:#166534}
+.num-btn.bad{background:#FEE2E2;border-color:#EF4444}
+.pair-card{width:66px;height:66px;border-radius:14px;border:2.5px solid #E5E7EB;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;transition:background .2s,border-color .2s;user-select:none}
+.pair-card.flipped{background:var(--bg);border-color:var(--brand)}
+.pair-card.matched{background:#DCFCE7;border-color:#22C55E}
+.pair-card.wrong{background:#FEE2E2;border-color:#EF4444}
+.letter-btn{border:2px solid #D1D5DB;border-radius:10px;background:#fff;padding:.32rem .6rem;font-size:.95rem;font-weight:800;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .15s,border-color .15s;min-width:34px}
+.letter-btn:hover:not(:disabled){background:var(--bg);border-color:var(--brand)}
+.letter-btn:disabled{opacity:.4;cursor:default}
+.letter-slot{border-bottom:3px solid var(--brand);min-width:26px;height:30px;display:inline-flex;align-items:flex-end;justify-content:center;font-size:1rem;font-weight:800;color:var(--brand);margin:0 2px}
+
+/* ── REWARDS ── */
+.badge-item{border-radius:14px;padding:.65rem .45rem;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.6rem;font-weight:800;text-align:center;aspect-ratio:1}
+.badge-item.earned{background:#FEF9C3;color:#92610A}
+.badge-item.locked{background:#F3F4F6;color:#9CA3AF;opacity:.55}
+.badge-icon{font-size:1.4rem}
+.offline-row{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:14px;border:2px solid #E5E7EB;background:#fff;margin-bottom:.48rem}
+
+/* ── LOCK SCREEN ── */
+#lockScreen{display:none;background:rgba(10,10,20,.93);position:fixed;inset:0;z-index:999;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+#lockScreen.show{display:flex}
+.lock-card{background:#fff;border-radius:24px;padding:1.75rem 1.4rem;max-width:320px;width:100%}
+
+/* ── BREAK BANNER ── */
+#breakBanner{background:#FFFBEB;border:2px solid #FCD34D;border-radius:14px;padding:.65rem .9rem;margin:.65rem 1rem 0;display:none;align-items:center;gap:.65rem}
+#breakBanner.show{display:flex}
+
+/* ── PARENT OVERLAY ── */
+#parentOverlay{display:none;background:rgba(10,10,20,.85);position:fixed;inset:0;z-index:998;align-items:center;justify-content:center;padding:1.25rem}
+#parentOverlay.show{display:flex}
+.parent-modal{background:#fff;border-radius:24px;padding:1.4rem;width:100%;max-width:380px;max-height:88vh;overflow-y:auto}
+
+/* ── STAT BOX ── */
+.stat-box{background:#F9FAFB;border-radius:14px;padding:.8rem;text-align:center}
+.stat-num{font-family:var(--font-head,'Fredoka One'),cursive;font-size:1.65rem;color:#333}
+.stat-lbl{font-size:.68rem;color:#999;font-weight:700}
+
+/* ── BUTTONS ── */
+.btn-brand{background:var(--brand);color:#fff;border:none;border-radius:14px;padding:.6rem 1.3rem;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:800;cursor:pointer;transition:opacity .15s,transform .1s;display:inline-flex;align-items:center;gap:.35rem}
+.btn-brand:hover{opacity:.88}.btn-brand:active{transform:scale(.97)}
+.btn-outline2{background:transparent;border:2px solid #E5E7EB;border-radius:14px;padding:.45rem .9rem;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;color:#555;cursor:pointer;transition:background .15s;display:inline-flex;align-items:center;gap:.3rem}
+.btn-outline2:hover{background:#F3F4F6}
+.tab-btn{padding:.38rem .95rem;border-radius:20px;font-size:.76rem;font-weight:800;border:2px solid #E5E7EB;background:transparent;cursor:pointer;color:#666;transition:all .15s}
+.tab-btn.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+input[type=range]{accent-color:var(--brand);width:100%}
+input[type=password]{border:2px solid #E5E7EB;border-radius:10px;padding:.42rem .8rem;font-family:'Nunito',sans-serif;font-size:.88rem;color:#333;background:#fff;width:100%}
+input[type=password]:focus{outline:none;border-color:var(--brand)}
+
+/* ── ANIMATIONS ── */
+@keyframes pop{0%{transform:scale(.75);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .3s ease forwards}
+@keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-7px)}70%{transform:translateX(7px)}}
+.shake{animation:shake .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fadein{animation:fadeIn .4s ease forwards}
+
+/* Age-specific font adjustments */
+body.age-tiny .wcard{border-radius:22px}
+body.age-tiny p,.age-tiny .qopt{font-size:1.02rem;line-height:1.85}
+body.age-tiny h2,body.age-tiny h3{font-family:'Bubblegum Sans',cursive}
+body.age-mid h2,body.age-mid h3{font-family:'Fredoka One',cursive}
+body.age-big h2,body.age-big h3{font-family:'Poppins',sans-serif;font-weight:700}
+/* Malayalam font support */
+body.lang-ml{font-family:'Noto Sans Malayalam',sans-serif}
+
+/* ════════════════════════════════════════
+   RESPONSIVE SYSTEM
+   xs  < 480px   (small phone)
+   sm  480–767px (large phone / phablet)
+   md  768–1023px (tablet)
+   lg  1024–1279px (small laptop)
+   xl  1280px+  (desktop / large screen)
+════════════════════════════════════════ */
+
+/* ── BASE: fluid container for tablet+ ── */
+@media(min-width:768px){
+  /* centre the whole app on wider screens */
+  #appShell{max-width:960px;margin:0 auto;position:relative}
+  .bottomnav{max-width:960px;left:50%;transform:translateX(-50%)}
+  #breakBanner{margin:.65rem 0 0}
+  .screen{padding:1.5rem 1.5rem 6rem}
+  .topbar{padding:0 1.25rem}
+  /* age selector: 3 cards side-by-side on tablet */
+  #ageSelector:not(.hidden) .row>.col-12{flex:0 0 auto;width:33.333%}
+  #ageSelector:not(.hidden) .row{max-width:820px!important}
+  .sel-title{font-size:2.8rem}
+  .sel-sub{font-size:1.05rem;margin-bottom:2.5rem}
+  .age-card .ac-emoji{font-size:3.8rem}
+  .age-card .ac-range{font-size:1.5rem}
+  .age-card .ac-label{font-size:.95rem}
+  .age-card .ac-desc{font-size:.78rem}
+  /* topbar */
+  .topbar{height:70px}
+  .logo-text{font-size:1.45rem}
+  .age-badge{font-size:.78rem;padding:4px 14px}
+  .star-pill,.timer-pill{font-size:.85rem;padding:5px 14px}
+  .back-age-btn{font-size:.88rem}
+  /* cards */
+  .wcard{padding:1.25rem 1.4rem;border-radius:22px}
+  /* module grid: 4 cols on tablet */
+  #homeModules{grid-template-columns:repeat(4,1fr)!important}
+  .mod-icon{width:60px;height:60px;font-size:1.85rem}
+  .mod-title{font-size:.95rem}
+  .mod-sub{font-size:.78rem}
+  /* story */
+  .story-hero{height:200px;font-size:5.5rem}
+  .story-item{padding:1rem 1.1rem}
+  /* quiz */
+  .qopt{font-size:.95rem;padding:.85rem 1.1rem}
+  /* games */
+  .drag-item,.drop-slot{width:82px;height:82px}
+  .drag-item{font-size:2.1rem}
+  .drop-slot.matched{font-size:2rem}
+  .pair-card{width:76px;height:76px;font-size:1.6rem}
+  #numGrid,#numGrid2{max-width:240px!important}
+  /* rewards */
+  .badge-item{font-size:.68rem}
+  .badge-icon{font-size:1.65rem}
+  /* typography */
+  h2{font-size:1.3rem!important}
+  h3{font-size:1.1rem!important}
+  p{font-size:.92rem}
+  .qopt,#storyBody{font-size:1rem!important}
+  /* bottom nav */
+  .bottomnav{height:64px}
+  .bnav-btn{font-size:.65rem}
+  .bnav-btn i{font-size:1.35rem}
+  /* break banner */
+  #breakBanner{border-radius:16px;padding:.8rem 1.1rem}
+  /* parent modal */
+  .parent-modal{max-width:460px;padding:1.75rem}
+}
+
+/* ── DESKTOP (1024px+): sidebar-style layout ── */
+@media(min-width:1024px){
+  body{background:#EAECF0}
+  #appShell{max-width:1200px;display:grid;grid-template-columns:220px 1fr;grid-template-rows:auto 1fr;gap:0;box-shadow:0 0 40px rgba(0,0,0,.12);border-radius:24px;overflow:hidden;margin:1.5rem auto;min-height:calc(100vh - 3rem)}
+  /* topbar spans full width */
+  .topbar{grid-column:1/-1;border-radius:0;height:72px;padding:0 1.5rem}
+  /* sidebar nav replacing bottom nav */
+  .bottomnav{position:static;grid-column:1;grid-row:2;flex-direction:column;height:auto;border-top:none;border-right:2.5px solid var(--card-border);background:var(--nav-bg);padding:1.5rem 0;border-radius:0;transform:none;max-width:none;left:auto;justify-content:flex-start}
+  .bnav-btn{flex:none;flex-direction:row;justify-content:flex-start;padding:.7rem 1.4rem;gap:.6rem;font-size:.82rem;border-radius:0;width:100%;text-align:left}
+  .bnav-btn i{font-size:1.15rem}
+  .bnav-btn.active{background:rgba(0,0,0,.06);color:var(--brand);border-left:3px solid var(--brand)}
+  /* main content area */
+  .screen{grid-column:2;grid-row:2;padding:2rem 2.5rem 2rem;min-height:auto;overflow-y:auto;max-height:calc(100vh - 3rem - 72px)}
+  /* break banner above content */
+  #breakBanner{grid-column:2;grid-row:2;position:sticky;top:0;z-index:100;margin:0;border-radius:0;border-left:none;border-right:none;border-top:none}
+  /* age selector is a fixed fullscreen overlay — no layout changes needed */
+  /* module grid: 4 equal cols */
+  #homeModules .col-6{flex:0 0 25%;max-width:25%}
+  .mod-card{padding:1.25rem 1rem}
+  .mod-icon{width:64px;height:64px;font-size:2rem}
+  .mod-title{font-size:1rem}
+  /* story hero taller */
+  .story-hero{height:220px;font-size:6rem}
+  /* quiz: constrain width */
+  #quizIntro,#quizQ,#quizResult{max-width:640px;margin:0 auto}
+  /* games: drag items bigger */
+  .drag-item,.drop-slot{width:90px;height:90px}
+  .drag-item{font-size:2.3rem}
+  .drop-slot.matched{font-size:2.2rem}
+  .pair-card{width:82px;height:82px;font-size:1.75rem}
+  #numGrid,#numGrid2{max-width:270px!important}
+  /* reward badges bigger */
+  .badge-icon{font-size:1.8rem}
+  .badge-item{font-size:.72rem}
+  /* stat boxes */
+  .stat-num{font-size:1.9rem}
+  /* parent modal bigger */
+  .parent-modal{max-width:500px;padding:2rem}
+  /* typography */
+  h2{font-size:1.5rem!important}
+  h3{font-size:1.2rem!important}
+  p,#storyBody{font-size:1.02rem!important;line-height:1.85!important}
+  .qopt{font-size:1rem!important;padding:.9rem 1.2rem}
+  /* home welcome card */
+  .wcard h2{font-size:1.4rem!important}
+  /* buttons */
+  .btn-brand{font-size:.96rem;padding:.7rem 1.5rem}
+  .btn-outline2{font-size:.88rem;padding:.55rem 1.1rem}
+}
+
+/* ── LARGE DESKTOP (1280px+) ── */
+@media(min-width:1280px){
+  #appShell{max-width:1360px;grid-template-columns:240px 1fr}
+  .topbar{padding:0 2rem}
+  .screen{padding:2.5rem 3rem 2rem}
+  .bnav-btn{font-size:.88rem;padding:.8rem 1.6rem}
+  .drag-item,.drop-slot{width:96px;height:96px}
+  .drag-item{font-size:2.5rem}
+  .story-hero{height:250px;font-size:7rem}
+  #numGrid,#numGrid2{max-width:290px!important}
+}
+
+/* ── SMALL PHONES (< 380px) ── */
+@media(max-width:380px){
+  .topbar{padding:0 .5rem;gap:.3rem}
+  .logo-text{font-size:1rem}
+  .age-badge{display:none}
+  .star-pill,.timer-pill{font-size:.7rem;padding:3px 7px}
+  .back-age-btn span{display:none}
+  .lang-btn{padding:3px 7px;font-size:.65rem}
+  .screen{padding:.75rem .75rem 5rem}
+  .drag-item,.drop-slot{width:60px;height:60px}
+  .drag-item{font-size:1.6rem}
+  .drop-slot{font-size:.55rem}
+  .drop-slot.matched{font-size:1.5rem}
+  .pair-card{width:58px;height:58px;font-size:1.2rem}
+  #numGrid,#numGrid2{max-width:180px!important}
+  .num-btn{font-size:1.1rem;padding:.55rem}
+  .bnav-btn{font-size:.5rem}
+  .bnav-btn i{font-size:1.1rem}
+  .wcard{padding:.85rem .9rem}
+  .sel-title{font-size:1.7rem}
+  .age-card .ac-emoji{font-size:2.4rem}
+  .age-card .ac-range{font-size:1.1rem}
+  .badge-icon{font-size:1.2rem}
+  .badge-item{font-size:.56rem}
+  .stat-num{font-size:1.45rem}
+}
+
+/* ── VERY SMALL PHONES (< 320px) ── */
+@media(max-width:320px){
+  .topbar{height:62px;padding:0 .4rem;gap:.2rem}
+  .logo-text{font-size:.95rem}
+  .age-badge{display:none}
+  .star-pill,.timer-pill{font-size:.68rem;padding:4px 8px}
+  .back-age-btn{font-size:.7rem;padding:4px 6px}
+  .lang-btn{padding:3px 7px;font-size:.65rem}
+  .screen{padding:.6rem .6rem 4.5rem}
+  .wcard{padding:.75rem .8rem;margin-bottom:.7rem;border-radius:18px}
+  .mod-card{padding:.9rem .7rem;border-radius:18px}
+  .mod-icon{width:48px;height:48px;font-size:1.3rem}
+  .mod-title{font-size:.75rem}
+  .mod-sub{font-size:.6rem}
+  .story-hero{height:100px;font-size:3.5rem;border-radius:16px}
+  .story-item{padding:.7rem;border-radius:16px}
+  .qopt{font-size:.82rem;padding:.65rem .85rem;margin-bottom:.5rem;border-radius:12px}
+  .drag-item,.drop-slot{width:64px;height:64px;font-size:1.6rem;border-radius:12px}
+  .drop-slot{font-size:.55rem;border-radius:12px}
+  .drop-slot.matched{font-size:1.7rem}
+  .pair-card{width:60px;height:60px;font-size:1.25rem;border-radius:12px}
+  #numGrid,#numGrid2{max-width:160px!important}
+  .num-btn{font-size:1.1rem;padding:.6rem;border-radius:12px}
+  .letter-btn{border-radius:8px;padding:.3rem .55rem;font-size:.9rem;min-width:32px}
+  .letter-slot{min-width:24px;height:28px}
+  .bnav-btn{font-size:.48rem}
+  .bnav-btn i{font-size:1.15rem}
+  .bottomnav{height:60px}
+  .badge-item{font-size:.55rem;padding:.6rem .4rem;border-radius:12px}
+  .offline-row{padding:.55rem .7rem;border-radius:12px}
+  .stat-box{border-radius:12px;padding:.7rem}
+  .stat-num{font-size:1.35rem}
+  .btn-brand{font-size:.85rem;padding:.65rem 1.4rem;border-radius:12px}
+  .btn-outline2{font-size:.76rem;padding:.5rem 1rem;border-radius:12px}
+  .tab-btn{font-size:.74rem;padding:.4rem 1rem;border-radius:18px}
+  input[type=password]{border-radius:8px;padding:.4rem .75rem;font-size:.85rem}
+  .sel-title{font-size:1.4rem}
+  .sel-sub{font-size:.85rem;margin-bottom:1.8rem}
+  .age-card{padding:1rem .8rem;border-radius:20px}
+  .age-card .ac-emoji{font-size:1.8rem}
+  .age-card .ac-range{font-size:.9rem}
+  .age-card .ac-label{font-size:.65rem}
+  .age-card .ac-desc{font-size:.55rem;margin-top:.2rem}
+  .parent-entry{font-size:.7rem}
+  .lock-card{padding:1.5rem 1.2rem;border-radius:20px;max-width:300px}
+  .break-banner{border-radius:14px;padding:.7rem 1rem}
+  .parent-modal{max-width:95%;padding:1.2rem;border-radius:20px}
+  /* home modules 1 per row on very small */
+  #homeModules .col-6{flex:0 0 100%;max-width:100%}
+}
+
+/* ── TOUCH: remove hover effects on touch ── */
+@media(hover:none){
+  .mod-card:hover{transform:none;box-shadow:none}
+  .story-item:hover{transform:none;border-color:var(--card-border)}
+  .btn-brand:hover{opacity:1}
+  .btn-outline2:hover{background:transparent}
+  .age-card:hover{transform:none;box-shadow:none}
+  /* bigger tap targets on touch */
+  .qopt{padding:.85rem 1.1rem;margin-bottom:.6rem}
+  .bnav-btn{padding:.5rem 0}
+}
+
+/* ── LANDSCAPE PHONES ── */
+@media(max-width:767px) and (orientation:landscape){
+  .topbar{height:52px}
+  .screen{padding:.6rem 1rem 4.5rem;min-height:auto}
+  .bottomnav{height:50px}
+  .bnav-btn i{font-size:1.1rem}
+  .bnav-btn{font-size:.5rem}
+  .story-hero{height:110px;font-size:3rem}
+  #ageSelector{padding:1rem}
+  #ageSelector:not(.hidden) .row>.col-12{width:33.333%}
+  .age-card{padding:1rem .85rem}
+  .age-card .ac-emoji{font-size:2.2rem}
+  .sel-title{font-size:1.6rem;margin-bottom:.1rem}
+  .sel-sub{margin-bottom:1rem}
+}
+
+/* ── TABLET PORTRAIT specific (768-1023) ── */
+@media(min-width:768px) and (max-width:1023px){
+  .screen{padding:1.4rem 1.4rem 5.5rem}
+  /* keep bottom nav on tablets */
+  .bottomnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;height:62px;border-radius:0;transform:none;left:50%;max-width:960px}
+  .bnav-btn{flex-direction:column;font-size:.62rem}
+  .bnav-btn i{font-size:1.3rem}
+  .bnav-btn.active{border-left:none;background:transparent;border-top:3px solid var(--brand)}
+  /* two-column story list */
+  #storyList{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  #storyList .story-item{margin-bottom:0}
+  /* game grid wider */
+  #dragItems,#dragItems2,#dropZones,#dropZones2{gap:.85rem!important}
+  .drag-item,.drop-slot{width:80px;height:80px}
+  /* pair grid bigger */
+  #pairGrid{max-width:380px!important}
+  .pair-card{width:78px;height:78px}
+  /* offline rows 2 col */
+  #offlineList,#pOfflineList{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .offline-row{margin-bottom:0}
+  /* stats 2x2 stays fine */
+}
+
+/* ── DESKTOP: restore bottom nav to row if window resized back ── */
+@media(max-width:1023px){
+  #appShell{display:block;max-width:none;box-shadow:none;border-radius:0;margin:0}
+  .screen{grid-column:unset;grid-row:unset}
+  #breakBanner{grid-column:unset;grid-row:unset;position:static;margin:.65rem 1rem 0}
+  body{background:#F8F9FA}
+}
+
+/* ── PRINT / A11Y: reduce motion ── */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
