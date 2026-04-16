@@ -15,7 +15,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Clear Laravel cache (important)
-RUN php artisan config:clear && php artisan cache:clear
+
 
 # Node for Vite
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
@@ -26,4 +26,4 @@ RUN npm install && npm run build
 RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
-CMD php -S 0.0.0.0:10000 -t public
+CMD php artisan config:clear && php artisan cache:clear && php -S 0.0.0.0:10000 -t public
