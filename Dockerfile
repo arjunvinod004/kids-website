@@ -10,6 +10,9 @@ WORKDIR /app
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
+RUN php artisan config:clear
+RUN php artisan cache:clear
+RUN php artisan config:cache
 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
