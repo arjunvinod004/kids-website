@@ -1,44 +1,47 @@
 <x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add New Content') }}
-        </h2>
-    </x-slot>
+    <x-slot name="header">Add System Content</x-slot>
 
-    <div class="py-4">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Create New Content</h5>
+    <div class="row justify-content-center">
+        <div class="col-xl-7">
+            <div class="mb-3">
+                <a href="{{ route('admin.index') }}" class="text-muted text-decoration-none fw-bold" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">
+                    <i class="bi bi-chevron-left"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <span>Add New System Content</span>
+                    <i class="bi bi-plus-circle-fill"></i>
+                </div>
+                <div class="admin-card-body">
+                    <form action="{{ route('admin.store') }}" method="POST">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="key" class="form-label-sm d-block mb-1">Content Key</label>
+                            <input type="text" name="key" id="key" required value="{{ old('key') }}"
+                                   class="form-control" style="font-family: monospace;" placeholder="e.g. platform_hero_text">
+                            @error('key')<div class="text-danger" style="font-size:0.75rem;">{{ $message }}</div>@enderror
                         </div>
-                        <div class="card-body">
-                            <form action="{{ route('admin.store') }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="key" class="form-label">Key</label>
-                                    <input type="text" name="key" id="key" class="form-control" required placeholder="Enter content key">
-                                    @error('key')
-                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="value" class="form-label">Value (JSON)</label>
-                                    <textarea name="value" id="value" rows="6" class="form-control font-monospace" required placeholder='{"example": "data"}'></textarea>
-                                    @error('value')
-                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <a href="{{ route('admin.index') }}" class="btn btn-secondary me-2">Cancel</a>
-                                    <button type="submit" class="btn btn-primary">Create Content</button>
-                                </div>
-                            </form>
+
+                        <div class="mb-4">
+                            <label for="value" class="form-label-sm d-block mb-1">Value (JSON)</label>
+                            <textarea name="value" id="value" rows="10" required class="form-control"
+                                      style="background:#212529; color:#fbbf24; font-family: monospace; font-size: 0.85rem;"
+                                      placeholder='{ "title": "...", "body": "..." }'>{{ old('value') }}</textarea>
+                            @error('value')<div class="text-danger" style="font-size:0.75rem;">{{ $message }}</div>@enderror
                         </div>
-                    </div>
+
+                        <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                            <a href="{{ route('admin.index') }}" class="btn btn-outline-secondary fw-bold">Cancel</a>
+                            <button type="submit" class="btn btn-warning fw-bold px-4">
+                                <i class="bi bi-save me-1"></i> Save Content
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-admin-layout>

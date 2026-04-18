@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\AppContent;
+use App\Models\Story;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function index()
     {
+        $storiesCount = Story::count();
+        $quizzesCount = Quiz::count();
         $contents = AppContent::all();
-        return view('admin.index', compact('contents'));
+        
+        return view('admin.index', compact('storiesCount', 'quizzesCount', 'contents'));
     }
 
     public function create()

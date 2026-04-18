@@ -272,16 +272,7 @@
     </div>
     <div class="wcard mb-2">
       <h3 id="badgesTitle" style="font-size:.86rem;font-weight:800;margin-bottom:.7rem">Badges</h3>
-      <div class="row g-2" id="badgeGrid">
-        <div class="col-3"><div class="badge-item earned"><div class="badge-icon">📖</div><div id="badge1lbl">Story Star</div></div></div>
-        <div class="col-3"><div class="badge-item earned"><div class="badge-icon">🎯</div><div id="badge2lbl">Quiz Pro</div></div></div>
-        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🎮</div><div id="badge3lbl">Game Hero</div></div></div>
-        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🌟</div><div id="badge4lbl">Super Kid</div></div></div>
-        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">📚</div><div id="badge5lbl">Bookworm</div></div></div>
-        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🏅</div><div id="badge6lbl">Explorer</div></div></div>
-        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🧠</div><div id="badge7lbl">Thinker</div></div></div>
-        <div class="col-3"><div class="badge-item locked"><div class="badge-icon">🌈</div><div id="badge8lbl">Rainbow</div></div></div>
-      </div>
+      <div class="row g-2" id="badgeGrid"></div>
     </div>
     <div class="wcard">
       <h3 id="earnOfflineTitle" style="font-size:.86rem;font-weight:800;margin-bottom:.28rem">Earn stars offline!</h3>
@@ -295,7 +286,7 @@
     <button class="bnav-btn active" id="bn-home" onclick="nav('home')"><i class="bi bi-house-heart-fill"></i><span id="nav-home-lbl">Home</span></button>
     <button class="bnav-btn" id="bn-stories" onclick="nav('stories')"><i class="bi bi-book-fill"></i><span id="nav-stories-lbl">Stories</span></button>
     <button class="bnav-btn" id="bn-quiz" onclick="nav('quiz')"><i class="bi bi-patch-question-fill"></i><span id="nav-quiz-lbl">Quiz</span></button>
-    <button class="bnav-btn" id="bn-games" onclick="nav('games')"><i class="bi bi-controller"></i><span id="nav-games-lbl">Games</span></button>
+    <!-- <button class="bnav-btn" id="bn-games" onclick="nav('games')"><i class="bi bi-controller"></i><span id="nav-games-lbl">Games</span></button> -->
     <button class="bnav-btn" id="bn-rewards" onclick="nav('rewards')"><i class="bi bi-trophy-fill"></i><span id="nav-rewards-lbl">Rewards</span></button>
   </nav>
 </div>

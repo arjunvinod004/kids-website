@@ -46,7 +46,7 @@ const STATIC_T = {
     hintLabel:"Hint:", clearTxt:"Clear", nextWordTxt:"Next word",
     scrambleCorrect:"Correct! +8 stars 🎉", scrambleWrong:"Not quite! The word was: ",
     rewardsTitle:"🏆 My Rewards", totalStarsLabel:"total stars collected",
-    nextBadgeLabel:"Next badge at 30 stars", badgesTitle:"Badges",
+    nextBadgeLabel:"Next badge at {n} stars", allBadgesLabel:"All badges earned!", badgesTitle:"Badges",
     earnOfflineTitle:"Earn stars offline!", earnOfflineSub:"Complete real-world activities to claim bonus stars.",
     claimBtn:"Claim", doneLabel:"Done!",
     nav:{home:"Home",stories:"Stories",quiz:"Quiz",games:"Games",rewards:"Rewards"},
@@ -98,8 +98,8 @@ const STATIC_T = {
     hintLabel:"സൂചന:", clearTxt:"മായ്ക്കൂ", nextWordTxt:"അടുത്ത വാക്ക്",
     scrambleCorrect:"ശരിയായി! +8 നക്ഷത്രം 🎉", scrambleWrong:"ശരിയല്ല! വാക്ക്: ",
     rewardsTitle:"🏆 എന്റെ പ്രതിഫലങ്ങൾ", totalStarsLabel:"ആകെ നക്ഷത്രങ്ങൾ",
-    nextBadgeLabel:"30 നക്ഷത്രത്തിൽ അടുത്ത ബാഡ്ജ്", badgesTitle:"ബാഡ്ജുകൾ",
-    earnOfflineTitle:"ഓഫ്‌ലൈൻ ആയി നക്ഷത്രം നേടൂ!", earnOfflineSub:"ഈ പ്രവർത്തനങ്ങൾ ചെയ്ത് നക്ഷത്രങ്ങൾ ക്ലെയിം ചെയ്യൂ.",
+    nextBadgeLabel:"{n} നക്ഷത്രത്തിൽ അടുത്ത ബാഡ്ജ്", allBadgesLabel:"എല്ലാ ബാഡ്ജുകളും നേടി!", badgesTitle:"ബാഡ്ജുകൾ",
+    earnOfflineTitle:"ഓഫ്‌ലൈൻ ആയി നക്ഷത്രം വേനി!", earnOfflineSub:"ഈ പ്രവർത്തനങ്ങൾ ചെയ്ത് നക്ഷത്രങ്ങൾ ക്ലെയിം ചെയ്യൂ.",
     claimBtn:"ക്ലെയിം", doneLabel:"പൂർത്തിയായി!",
     nav:{home:"ഹോം",stories:"കഥകൾ",quiz:"ക്വിസ്",games:"കളി",rewards:"പ്രതിഫലം"},
     lockTitle:"സ്ക്രീൻ സമയം തീർന്നു!", lockMsg:"ഇന്ന് നന്നായി പഠിച്ചു! ഇനി ഓഫ്‌ലൈൻ കളി!",
@@ -163,6 +163,8 @@ const STATIC_AGES = {
       {q:"ഫ്രോഗ്ഗിക്ക് എന്തിനോടായിരുന്നു ഭയം?",opts:["വെള്ളം","ചാടൽ","പക്ഷികൾ","ഇരുട്ട്"],ans:1},
       {q:"ഫ്രോഗ്ഗിയുടെ കൂട്ടുകാരി എന്ത് ചോദിച്ചു?",opts:["ഓടി പോ!","നീ പറന്നാലോ?","അനങ്ങരുത്!","വീട്ടിൽ പോ!"],ans:1}
     ],
+    badges_en:[{icon:"📖",title:"Story Star",threshold:5},{icon:"🎯",title:"Quiz Pro",threshold:10},{icon:"🎮",title:"Game Hero",threshold:15},{icon:"🌟",title:"Super Kid",threshold:20},{icon:"📚",title:"Bookworm",threshold:25},{icon:"🏅",title:"Explorer",threshold:30},{icon:"🧠",title:"Thinker",threshold:35},{icon:"🌈",title:"Rainbow",threshold:40}],
+    badges_ml:[{icon:"📖",title:"കഥ നക്ഷത്രം",threshold:5},{icon:"🎯",title:"ക്വിസ് മിടുക്കൻ",threshold:10},{icon:"🎮",title:"ഗെയിം ഹീറോ",threshold:15},{icon:"🌟",title:"സൂപ്പർ കിഡ്",threshold:20},{icon:"📚",title:"ഗ്രന്ഥഭ്രാന്തൻ",threshold:25},{icon:"🏅",title:"പര്യവേഷകൻ",threshold:30},{icon:"🧠",title:"ചിന്തകൻ",threshold:35},{icon:"🌈",title:"ഇന്ദ്രധനുസ്സ്",threshold:40}],
     offline_en:[{icon:"📖",txt:"Ask someone to read you a book",stars:8,done:false},{icon:"🎨",txt:"Colour a picture",stars:6,done:false},{icon:"🌿",txt:"Play outside for 10 minutes",stars:10,done:false},{icon:"🤝",txt:"Help tidy your toys",stars:8,done:false}],
     offline_ml:[{icon:"📖",txt:"ആരോടെങ്കിലും ഒരു പുസ്തകം വായിക്കാൻ ആവശ്യപ്പെടൂ",stars:8,done:false},{icon:"🎨",txt:"ഒരു ചിത്രം വർണ്ണം നൽകൂ",stars:6,done:false},{icon:"🌿",txt:"10 മിനിറ്റ് പുറത്ത് കളിക്കൂ",stars:10,done:false},{icon:"🤝",txt:"കളിപ്പാട്ടങ്ങൾ ഒതുക്കൂ",stars:8,done:false}]
   },
@@ -205,6 +207,8 @@ const STATIC_AGES = {
       {q:"ടിമോ നൽകിയ പാഠം?",opts:["വേഗം ജയിക്കും","ക്രമേണ ജയം","ആമ ഏറ്റവും നല്ലത്","കൂട്ടുകാർ സഹായിക്കും"],ans:1},
       {q:"ലൂണ ഡയറിയിൽ എന്ത് ഇട്ടു?",opts:["റെസിപ്പി","കവിത","നക്ഷത്ര ചിത്രങ്ങൾ","ഷോപ്പിംഗ് ലിസ്റ്റ്"],ans:2}
     ],
+    badges_en:[{icon:"📖",title:"Story Star",threshold:10},{icon:"🎯",title:"Quiz Pro",threshold:20},{icon:"🎮",title:"Game Hero",threshold:30},{icon:"🌟",title:"Super Kid",threshold:40},{icon:"📚",title:"Bookworm",threshold:50},{icon:"🏅",title:"Explorer",threshold:60},{icon:"🧠",title:"Thinker",threshold:70},{icon:"🌈",title:"Rainbow",threshold:80}],
+    badges_ml:[{icon:"📖",title:"കഥ നക്ഷത്രം",threshold:10},{icon:"🎯",title:"ക്വിസ് മിടുക്കൻ",threshold:20},{icon:"🎮",title:"ഗെയിം ഹീറോ",threshold:30},{icon:"🌟",title:"സൂപ്പർ കിഡ്",threshold:40},{icon:"📚",title:"ഗ്രന്ഥഭ്രാന്തൻ",threshold:50},{icon:"🏅",title:"പര്യവേഷകൻ",threshold:60},{icon:"🧠",title:"ചിന്തകൻ",threshold:70},{icon:"🌈",title:"ഇന്ദ്രധനുസ്സ്",threshold:80}],
     offline_en:[{icon:"📖",txt:"Read a book for 15 minutes",stars:10,done:false},{icon:"✏️",txt:"Draw your favourite animal",stars:8,done:false},{icon:"🚶",txt:"Walk outside for 15 minutes",stars:12,done:false},{icon:"🧩",txt:"Complete a puzzle",stars:8,done:false},{icon:"🤝",txt:"Help with a chore at home",stars:15,done:false}],
     offline_ml:[{icon:"📖",txt:"15 മിനിറ്റ് ഒരു പുസ്തകം വായിക്കൂ",stars:10,done:false},{icon:"✏️",txt:"ഇഷ്ട മൃഗത്തെ വരയ്ക്കൂ",stars:8,done:false},{icon:"🚶",txt:"15 മിനിറ്റ് പുറത്ത് നടക്കൂ",stars:12,done:false},{icon:"🧩",txt:"ഒരു പസ്സിൽ പൂർത്തിയാക്കൂ",stars:8,done:false},{icon:"🤝",txt:"വീടിലെ ഒരു ജോലി ചെയ്യൂ",stars:15,done:false}]
   },
@@ -247,6 +251,8 @@ const STATIC_AGES = {
       {q:"ആർജ്ജുൻ എന്ത് കണ്ടെത്തി?",opts:["ഒരു ധൂമകേതു","ആവർത്തന റേഡിയോ സൂചനകൾ","സൗരജ്വാല","ഉപഗ്രഹ സൂചനകൾ"],ans:1},
       {q:"ആ സൂചനയുടെ ഉറവിടം?",opts:["ഒരു ഏലിയൻ കപ്പൽ","ഒരു കാലാവസ്ഥ ഉപഗ്രഹം","ഒരു പൾസർ — ന്യൂട്രോൺ നക്ഷത്രം","ഒരു ബ്ലാക്ക് ഹോൾ"],ans:2}
     ],
+    badges_en:[{icon:"📖",title:"Story Star",threshold:15},{icon:"🎯",title:"Quiz Pro",threshold:30},{icon:"🎮",title:"Game Hero",threshold:45},{icon:"🌟",title:"Super Kid",threshold:60},{icon:"📚",title:"Bookworm",threshold:75},{icon:"🏅",title:"Explorer",threshold:90},{icon:"🧠",title:"Thinker",threshold:105},{icon:"🌈",title:"Rainbow",threshold:120}],
+    badges_ml:[{icon:"📖",title:"കഥ നക്ഷത്രം",threshold:15},{icon:"🎯",title:"ക്വിസ് മിടുക്കൻ",threshold:30},{icon:"🎮",title:"ഗെയിം ഹീറോ",threshold:45},{icon:"🌟",title:"സൂപ്പർ കിഡ്",threshold:60},{icon:"📚",title:"ഗ്രന്ഥഭ്രാന്തൻ",threshold:75},{icon:"🏅",title:"പര്യവേഷകൻ",threshold:90},{icon:"🧠",title:"ചിന്തകൻ",threshold:105},{icon:"🌈",title:"ഇന്ദ്രധനുസ്സ്",threshold:120}],
     offline_en:[{icon:"📖",txt:"Read a chapter of any book",stars:12,done:false},{icon:"📓",txt:"Write 3 facts you learned today",stars:10,done:false},{icon:"🌿",txt:"Spend 20 minutes in nature",stars:12,done:false},{icon:"🧪",txt:"Try a simple science experiment",stars:18,done:false},{icon:"🤝",txt:"Teach something to a younger sibling",stars:15,done:false}],
     offline_ml:[{icon:"📖",txt:"ഒരു പുസ്തകത്തിന്റെ ഒരു അധ്യായം വായിക്കൂ",stars:12,done:false},{icon:"📓",txt:"ഇന്ന് പഠിച്ച 3 കാര്യം എഴുതൂ",stars:10,done:false},{icon:"🌿",txt:"20 മിനിറ്റ് പ്രകൃതിയിൽ ചിലവഴിക്കൂ",stars:12,done:false},{icon:"🧪",txt:"ഒരു ലളിതമായ ശാസ്ത്ര പരീക്ഷണം ചെയ്യൂ",stars:18,done:false},{icon:"🤝",txt:"ഒരു ചെറിയ കൂട്ടക്കാരന് എന്തെങ്കിലും പഠിപ്പിക്കൂ",stars:15,done:false}]
   }
@@ -455,6 +461,26 @@ function updateProgress(){
   if(hl) hl.textContent = lbl;
 }
 
+function renderBadges(){
+  const grid = document.getElementById('badgeGrid');
+  if(!grid || !ageData) return;
+  const t = T[lang];
+  const badges = lang==='ml' ? ageData.badges_ml : ageData.badges_en;
+  grid.innerHTML = '';
+  if(!Array.isArray(badges) || badges.length === 0) return;
+  const nextBadge = badges.find(b => stars < b.threshold);
+  badges.forEach(b => {
+    const earned = stars >= b.threshold;
+    const col = document.createElement('div');
+    col.className = 'col-3';
+    col.innerHTML = `<div class="badge-item ${earned ? 'earned' : 'locked'}"><div class="badge-icon">${b.icon}</div><div class="badge-title">${b.title}</div><div class="badge-sub">${earned ? t.doneLabel : '+'+b.threshold+' ⭐'}</div></div>`;
+    grid.appendChild(col);
+  });
+  const nextText = nextBadge ? t.nextBadgeLabel.replace('{n}', nextBadge.threshold) : t.allBadgesLabel;
+  const nextBadgeEl = document.getElementById('nextBadgeLabel');
+  if(nextBadgeEl) nextBadgeEl.textContent = nextText;
+}
+
 function filterByAgeGroup(items, ageGroup){
   if (!ageGroup) return items;
   const ageGroupMap = {
@@ -494,11 +520,17 @@ function normalizeQuizzes(quizzes, language='en'){
   return quizzes.map(quiz=>({
     id: quiz.id ?? null,
     title: quiz[`title_${language}`] || quiz.title || quiz.title_en || quiz.title_ml || 'Quiz',
-    questions: (Array.isArray(quiz[`questions_${language}`]) && quiz[`questions_${language}`].length ? quiz[`questions_${language}`] : (Array.isArray(quiz.questions) ? quiz.questions : [])).map(item=>({
-      q: item.question || item.q || '',
-      opts: Array.isArray(item.options) ? item.options : (Array.isArray(item.opts) ? item.opts : []),
-      ans: typeof item.correct === 'number' ? item.correct : (typeof item.ans === 'number' ? item.ans : 0)
-    }))
+    questions: (Array.isArray(quiz[`questions_${language}`]) && quiz[`questions_${language}`].length ? quiz[`questions_${language}`] : (Array.isArray(quiz.questions) ? quiz.questions : [])).map(item=>{
+      const opts = Array.isArray(item.options) ? item.options : (Array.isArray(item.opts) ? item.opts : []);
+      let ans = parseInt(item.answer ?? item.correct ?? item.ans ?? 0, 10);
+      if (Number.isNaN(ans)) ans = 0;
+      if (ans < 0 || ans >= opts.length) ans = 0;
+      return {
+        q: item.question || item.q || '',
+        opts,
+        ans,
+      };
+    })
   }));
 }
 function getStoryList(){
@@ -509,9 +541,12 @@ function getStoryList(){
 }
 function getQuizList(){
   if(window.APP_DATA && Array.isArray(window.APP_DATA.quizzes) && window.APP_DATA.quizzes.length){
-    return normalizeQuizzes(filterByAgeGroup(window.APP_DATA.quizzes, currentAge), lang);
+    const normalized = normalizeQuizzes(filterByAgeGroup(window.APP_DATA.quizzes, currentAge), lang);
+    // Flatten all questions from all quizzes into one array
+    return normalized.flatMap(quiz => quiz.questions);
   }
-  return ageData ? normalizeQuizzes(lang==='ml'?ageData.quiz_ml:ageData.quiz_en, lang) : [];
+  // For hardcoded data, quiz_en/ml are already arrays of questions
+  return ageData ? (lang==='ml'?ageData.quiz_ml:ageData.quiz_en) : [];
 }
 
 /* ══ STORIES ══ */
@@ -771,6 +806,7 @@ function nextScramble(){scrambleIdx++;loadScramble();}
 function renderRewards(){
   if(!ageData)return;
   syncStars();
+  renderBadges();
   const c=document.getElementById('offlineList');c.innerHTML='';
   const oa=lang==='ml'?ageData.offline_ml:ageData.offline_en;
   const t=T[lang];
