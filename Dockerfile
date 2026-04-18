@@ -1,9 +1,10 @@
 FROM php:8.2-cli
 
-# Install system deps + MySQL PDO
+# Install system deps + PostgreSQL support
 RUN apt-get update && apt-get install -y \
     git unzip curl libzip-dev zip \
-    && docker-php-ext-install zip pdo pdo_mysql
+    libpq-dev \
+    && docker-php-ext-install zip pdo pdo_pgsql pgsql
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -13,9 +14,6 @@ COPY . .
 
 # PHP deps
 RUN composer install --no-dev --optimize-autoloader
-
-# Clear Laravel cache (important)
-
 
 # Node for Vite
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
