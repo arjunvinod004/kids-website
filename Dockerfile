@@ -1,28 +1,27 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
+# Install dependencies + MySQL driver
 RUN apt-get update && apt-get install -y \
     git unzip curl libzip-dev zip \
-    libpq-dev \
-    && docker-php-ext-install zip pdo pdo_pgsql pgsql
+    && docker-php-ext-install zip pdo pdo_mysql
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Enable Apache rewrite
+RUN a2enmod rewrite
 
-WORKDIR /app
+# Set working dir
+WORKDIR /var/www/html
+
+# Copy project
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
+RUN composer install --no-dev --optimize-autoloader
 
-RUN npm install && npm run build
+# Permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+EXPOSE 80
 
-EXPOSE 10000
-
-CMD php artisan config:clear && \
-    php artisan cache:clear && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php -S 0.0.0.0:10000 -t public
+CMD ["apache2-foreground"]
